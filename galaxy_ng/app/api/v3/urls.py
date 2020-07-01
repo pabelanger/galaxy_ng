@@ -24,6 +24,11 @@ urlpatterns = [
         name='collections-list'
     ),
     path(
+        'collections/curate/',
+        viewsets.CollectionViewSet.as_view({'post': 'curate'}),
+        name='collections-curate',
+    ),
+    path(
         'collections/<str:namespace>/<str:name>/',
         viewsets.CollectionViewSet.as_view({'get': 'retrieve', 'put': 'update'}),
         name='collections-detail'
