@@ -1,5 +1,6 @@
 import logging
 
+from django.conf import settings
 from rest_framework import status as http_code
 
 from galaxy_ng.app.models import auth as auth_models
@@ -10,10 +11,15 @@ from .synclist_base import BaseSyncListViewSet, ACCOUNT_SCOPE
 log = logging.getLogger(__name__)
 logging.getLogger().setLevel(logging.DEBUG)
 
+log.info("settings.FIXTURE_DIRS(%s scope): %s", settings.FIXTURE_DIRS)
+
 
 class TestUiMySyncListViewSet(BaseSyncListViewSet):
     def setUp(self):
         super().setUp()
+
+        log.info("self.fixtures2: %s", self.fixtures)
+        log.info("settings.FIXTURE_DIRS2: %s", settings.FIXTURE_DIRS)
 
         self.user = auth_models.User.objects.create_user(username="test1", password="test1-secret")
         self.group = self._create_group_with_synclist_perms(

@@ -1,6 +1,7 @@
 import logging
 from unittest import mock
 
+from django.conf import settings
 from guardian import shortcuts
 
 from pulp_ansible.app import models as pulp_ansible_models
@@ -23,13 +24,22 @@ SYNCLIST_PERMS = [
 ]
 
 
+log.info("settings.FIXTURE_DIRS(module scope): %s", settings.FIXTURE_DIRS)
+
+
 class BaseSyncListViewSet(base.BaseTestCase):
     fixtures = ["synclists.json"]
     url_name = "galaxy:api:v3:ui:synclists-list"
     default_owner_permissions = SYNCLIST_PERMS
 
     def setUp(self):
+        log.info("self.fixtures1: %s", self.fixtures)
+        log.info("settings.FIXTURE_DIRS1: %s", settings.FIXTURE_DIRS)
+
         super().setUp()
+
+        log.info("self.fixtures2: %s", self.fixtures)
+        log.info("settings.FIXTURE_DIRS2: %s", settings.FIXTURE_DIRS)
 
         self.repo = self._create_repository("test_post_repo")
         self.repo.save()
